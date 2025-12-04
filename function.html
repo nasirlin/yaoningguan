@@ -8,21 +8,22 @@
   <link rel="icon" type="image/png" href="https://i.meee.com.tw/XxNFjDY.png">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-
+    
     body {
       min-height: 100vh;
       margin: 0;
       font-family: 'Segoe UI', 'Noto Sans TC', Arial, sans-serif;
+      
       background: linear-gradient(
         to bottom,
         rgba(255,255,255,1) 0%,
-        rgba(249,253,249,1) 10%,
-        rgba(235,246,235,1) 24%,
-        rgba(216,240,216,1) 38%,
-        rgba(186,231,186,1) 54%,
-        rgba(139,212,139,1) 70%,
-        rgba(87,179,87,1) 86%,
-        rgba(47,149,48,1) 100%
+        rgba(245,252,249,1) 10%,
+        rgba(225,246,238,1) 24%,
+        rgba(200,240,225,1) 38%,
+        rgba(170,230,210,1) 54%,
+        rgba(140,220,195,1) 70%,
+        rgba(120,210,180,1) 86%,
+        rgba(100,200,166,1) 100%
       );
       background-attachment: fixed;
       background-repeat: no-repeat;
@@ -38,7 +39,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      
+      perspective: 1000px;
     }
+
     .slide-page {
       width: 100vw;
       min-height: 80vh;
@@ -47,12 +51,14 @@
       transition: transform 0.9s cubic-bezier(.45,1.35,.45,1), opacity 0.6s;
       opacity: 0;
       z-index: 0;
-      pointer-events: none;
+      
+      pointer-events: none; 
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
     }
+
     .slide-page.active {
       opacity: 1;
       z-index: 2;
@@ -62,262 +68,93 @@
     .slide-page.prev { opacity: 0; z-index: 0; transform: translateY(-60vh) scale(0.97) rotate(-2deg); }
     .slide-page.next { opacity: 0; z-index: 0; transform: translateY(100vh) scale(0.98); }
 
-    .function-header-row {
-      width: 100%;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-      margin: 2vw 0 1vw 0;
-      position: relative;
+    
+    .function-header-row { width: 100%; display: flex; align-items: center; justify-content: center; margin: 2vw 0 1vw 0; position: relative; }
+    .function-title { font-size: 3.3vw; font-weight: 600; letter-spacing: 6px; margin: 0; flex: 0 1 auto; z-index: 2; color: #000; text-shadow: none; text-align: center; }
+    .function-logo-group { display: flex; flex-direction: column; align-items: center; gap: 0.3vw; position: absolute; right: 5vw; top: 50%; transform: translateY(-50%); }
+    .function-logo-img { width: 4.5vw; height: 4.5vw; max-width: 90px; max-height: 90px; min-width: 35px; min-height: 35px; object-fit: contain; display: block; }
+    .layout-three-col { display: flex; flex-direction: row; width: 94vw; max-width: 1600px; justify-content: center; align-items: stretch; gap: 2vw; margin: 0 auto; height: 70vh; }
+    .col-left-app { flex: 0 0 22%; display: flex; align-items: center; justify-content: center; }
+    .phone-mockup { border: 3px solid #000; border-radius: 20px; overflow: hidden; width: 100%; height: 95%; background: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 5px 5px 0px rgba(0,0,0,0.1); }
+    .phone-mockup img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .col-center-text { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 2vh; }
+    .text-box-card { background: #fff; border: 3px solid #000; border-radius: 30px; padding: 2vw 2.5vw; box-shadow: 4px 4px 15px rgba(100,200,166,0.15); position: relative; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+    .text-box-card.bottom-gradient { background: linear-gradient(to bottom, #fff 20%, rgba(100,200,166,0.15) 100%); }
+    .story-heading { font-size: 1.8vw; font-weight: 700; margin-bottom: 1vw; color: #000; line-height: 1.4; width: 100%; }
+    .story-content { font-size: 1.5vw; line-height: 1.6; color: #111; text-align: justify; }
+    .feature-list-big { list-style: none; padding: 0; margin: 0; font-size: 1.8vw; font-weight: 600; color: #222; width: 100%; display: flex; flex-direction: column; align-items: center; }
+    .feature-list-big li { margin-bottom: 0.8vw; display: flex; align-items: center; justify-content: center; }
+    .feature-list-big li::before { content: "•"; margin-right: 0.5em; font-size: 1.2em; }
+    .check-list li::before { content: "✔"; color: #222; margin-right: 0.5em; font-weight: bold; }
+    .col-right-compare { flex: 0 0 22%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .compare-header-text { font-size: 2.2vw; font-weight: 900; margin-bottom: 1.5vw; color: #000; letter-spacing: 2px; }
+    .compare-box { background: #64C8A6; border: 3px solid #000; border-radius: 30px; width: 100%; height: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2vw; box-sizing: border-box; box-shadow: 4px 4px 0px rgba(0,0,0,0.1); }
+    .compare-app-name { font-size: 2.2vw; font-weight: 900; margin-bottom: 2vw; color: #000; }
+    .compare-list-small { list-style: none; padding: 0; margin: 0; font-size: 1.6vw; color: #000; font-weight: 500; text-align: left; }
+    .compare-list-small li { margin-bottom: 1vw; display: flex; align-items: center; }
+    .compare-list-small li::before { content: "•"; margin-right: 0.5em; font-weight: bold; }
+
+    @media (max-width: 1200px) {
+      .layout-three-col { flex-direction: column; height: auto; align-items: center; padding-bottom: 10vh;}
+      .col-left-app { width: 60%; margin-bottom: 3vw; height: 500px; }
+      .col-center-text { width: 90%; gap: 3vw; }
+      .text-box-card { min-height: 250px; }
+      .col-right-compare { width: 90%; margin-top: 3vw; }
+      .compare-box { height: auto; min-height: 300px; }
+      .story-heading { font-size: 3.5vw; }
+      .story-content { font-size: 3vw; }
+      .feature-list-big { font-size: 3.5vw; }
+      .compare-header-text { font-size: 5vw; }
+      .compare-app-name { font-size: 5vw; }
+      .compare-list-small { font-size: 3.5vw; }
+      .function-title { font-size: 5vw; }
     }
-    .function-title {
-      font-size: 3.3vw;
-      font-weight: 600;
-      letter-spacing: 6px;
-      margin-left: 4vw;
-      margin-top: 0.5vw;
-      flex: 1 1 auto;
-      min-width: 0;
-      z-index: 2;
-      color: #1d3500;
-      text-shadow: 0 2px 8px rgba(99,187,97,0.08);
-    }
-    .function-logo-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 0.1vw;
-      margin-right: 5vw;
-      gap: 0.3vw;
-    }
-    .function-logo-img {
-      width: 4.5vw;
-      height: 4.5vw;
-      max-width: 90px;
-      max-height: 90px;
-      min-width: 35px;
-      min-height: 35px;
-      object-fit: contain;
-      display: block;
+    
+    @media (max-width: 600px) {
+      .col-left-app { width: 80%; height: 400px; }
+      .story-heading { font-size: 5vw; }
+      .story-content { font-size: 4vw; }
+      .feature-list-big { font-size: 4.5vw; }
+      .compare-header-text { font-size: 7vw; }
+      .compare-app-name { font-size: 6vw; }
+      .compare-list-small { font-size: 4.5vw; }
+      .function-title { font-size: 7vw; }
     }
 
-    .function-row-main {
-      display: flex;
-      flex-direction: row;
-      width: 96vw;
-      max-width: 1550px;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 2vw;
-      margin: 0 auto;
-    }
-    .compare-story-group {
-      display: flex;
-      flex-direction: row;
-      gap: 1.5vw;
-      width: 100%;
-      justify-content: center;
-      align-items: flex-start;
-    }
-
-    .function-card.compare,
-    .function-card.story {
-      background: #fff;
-      border-radius: 22px;
-      border: 1.8px solid #222;
-      box-sizing: border-box;
-      padding: 2vw 2.5vw;
-      min-width: 330px;
-      max-width: 480px;
-      font-size: 1.6vw;
-      color: #111;
-      letter-spacing: 0.04em;
-      box-shadow: 0 2px 10px rgba(99,187,97,0.13);
-      font-weight: 400;
-      line-height: 1.6;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-    .function-card.compare .compare-title {
-      font-size: 1.35vw;
-      font-weight: 600;
-      color: #222;
-      margin-bottom: 1vw;
-      margin-top: 0;
-      letter-spacing: 0.03em;
-    }
-    .function-card.compare ul,
-    .function-card.story ul {
-      margin: 0.5vw 0 0.5vw 1vw;
-      padding-left: 1.2em;
-      font-size: 1em;
-    }
-    .function-card.compare li,
-    .function-card.story li { margin-bottom: 0.5em; }
-    .function-card .compare-highlight {
-      font-weight: 600;
-      margin-top: 1vw;
-      color: #146e0b;
-      font-size: 1.2em;
-    }
-
-    .function-screenshot-group {
-      display: flex;
-      flex-direction: row;
-      gap: 1.8vw;
-      justify-content: flex-start;
-      align-items: flex-start;
-      margin-left: 2vw;
-    }
-
-    .img-placeholder-card {
-      border: 1.8px dashed #222;
-      border-radius: 20px;
-      background: transparent !important;
-      box-shadow: none !important;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 1vw;
-      min-width: 495px;
-      max-width: 720px;
-      min-height: 645px;
-      box-sizing: border-box;
-    }
-    .img-placeholder-card .img-box {
-      width: 98%;
-      height: 570px;
-      max-height: 570px;
-      background: transparent !important;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #222;
-      font-size: 2vw;
-      margin-top: 0.5vw;
-      margin-bottom: 0.8vw;
-      overflow: hidden;
-      position: relative;
-      padding: 0;
-      flex-shrink: 0;
-      flex-grow: 0;
-    }
-    .img-placeholder-card .img-box img {
+    
+    .flip-card {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      border-radius: 10px;
-      display: block;
-      background: #eee;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+      cursor: pointer; 
     }
-
-    @media (max-width: 1200px) {
-      .function-title { font-size: 5vw; }
-      .function-header-row { margin: 4vw 0 2vw 0; }
-      .function-row-main { flex-direction: column; gap: 3vw; }
-      .compare-story-group { flex-direction: column; gap: 2vw; }
-      .function-card.compare, .function-card.story { font-size: 2.1vw; }
-      .function-card .compare-title { font-size: 1.9vw; }
-      .function-screenshot-group { flex-direction: column; gap: 2vw; margin-left: 0; }
-      .img-placeholder-card { min-width: 360px; max-width: 99vw; min-height: 430px; }
-      .img-placeholder-card .img-box { height: 380px; max-height: 380px; font-size: 2.4vw; }
-      .img-placeholder-card .img-box img { max-height: 100%; object-fit: cover; }
-      .function-logo-img { width: 12vw; height: 12vw; max-width: 60px; max-height: 60px; }
+    .flip-card.flipped {
+      transform: rotateY(180deg);
     }
-    @media (max-width: 600px) {
-      .function-title { font-size: 7vw; margin-left: 1vw; }
-      .function-header-row { margin: 2vw 0 1vw 0; }
-      .function-row-main { flex-direction: column; gap: 4vw; }
-      .compare-story-group { flex-direction: column; gap: 2vw; }
-      .function-card.compare, .function-card.story { font-size: 3.7vw; padding: 3vw 2vw; }
-      .function-card .compare-title { font-size: 3vw; }
-      .function-screenshot-group { flex-direction: column; gap: 2vw; margin-left: 0; }
-      .img-placeholder-card { min-width: 200px; max-width: 99vw; min-height: 220px; padding: 2vw 1vw; }
-      .img-placeholder-card .img-box { height: 180px; max-height: 180px; font-size: 3vw; }
-      .img-placeholder-card .img-box img { max-height: 100%; object-fit: cover; }
-      .function-logo-img { width: 12vw; height: 12vw; max-width: 60px; max-height: 60px; }
-    }
-
-    .function-card.compare { height: auto; }
-
-    .left-column {
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      background: transparent; 
       display: flex;
       flex-direction: column;
-      gap: 1.6vw;
-      align-items: flex-start;
-      max-width: 400px;
-      min-width: 0;
-    }
-
-    .function-card.compare.auto-size {
-      width: auto;
-      min-width: 0;
-      max-width: 400px;
-      box-sizing: border-box;
-    }
-
-    .left-column .img-placeholder-card {
-      border: none;
-      min-width: 0;
-      width: 100%;
-      max-width: 100%;
-      background: linear-gradient(180deg, #8fda86 0%, #2f9530 100%);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.06) inset;
-      padding: 1.2vw;
-      border-radius: 18px;
-      min-height: 240px;
-      display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
     }
-
-
-    .left-column .img-placeholder-card .img-box {
-      width: 100%;
-      height: 270px; 
-      max-height: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: transparent;
-      border-radius: 12px;
-      overflow: hidden;
-      padding: 0.6vw;
-      box-sizing: border-box;
+    .card-face.front {
+      z-index: 2;
+      transform: rotateY(0deg);
     }
-
-    .left-column .img-placeholder-card .img-box img {
-      width: auto;
-      height: auto;
-      max-width: 95%;
-      max-height: 95%;
-      object-fit: contain;
-      display: block;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.18));
-      transform: rotate(-6deg);
-      transform-origin: center;
+    .card-face.back {
+      transform: rotateY(180deg);
+      z-index: 1;
     }
-
-    @media (max-width: 1200px) {
-      .left-column { gap: 2.6vw; max-width: 520px; }
-      .left-column .img-placeholder-card { min-height: 480px; padding: 1.6vw; } /* increased to keep proportions */
-      .left-column .img-placeholder-card .img-box { height: 390px; } /* 260 * 1.5 */
-      .left-column .img-placeholder-card .img-box img { max-width: 80%; transform: none; }
-    }
-
-    @media (max-width: 600px) {
-      .left-column { gap: 3.6vw; max-width: 92vw; }
-      .left-column .img-placeholder-card { min-height: 300px; }
-      .left-column .img-placeholder-card .img-box { height: 210px; } /* 140 * 1.5 */
-      .left-column .img-placeholder-card .img-box img { max-width: 72%; transform: none; }
-    }
-
-    .function-screenshot-group .img-placeholder-card { min-width: 300px; min-height: 380px; }
-    .function-screenshot-group .img-placeholder-card .img-box img { object-fit: cover; width: 100%; height: 100%; }
-
   </style>
 </head>
 <body>
@@ -338,62 +175,157 @@
   </nav>
 
   <div class="slide-container" id="slideContainer">
+    
     <section class="slide-page active" data-index="0">
-      <div class="function-header-row">
-        <div class="function-title">App功能-個人化設定</div>
-        <div class="function-logo-group">
-          <img class="function-logo-img" src="https://i.meee.com.tw/XxNFjDY.png" alt="藥嚀管 logo">
-        </div>
-      </div>
-      <div class="function-row-main">
-        <div class="compare-story-group">
-          <div class="function-card compare">
-            <div class="compare-title">市面上的App</div>
-            <ul>
-              <li>功能單一</li>
-              <li>沒有特色</li>
-            </ul>
-            <div class="compare-highlight">藥嚀管</div>
-            <ul>
-              <li>輸入資料完善</li>
-              <li>延伸功能較多</li>
-            </ul>
+      <div class="flip-card">
+        <div class="card-face front">
+          <div class="function-header-row">
+            <div class="function-title">App功能-個人化設定</div>
           </div>
-          <div class="function-card story">
-            <b>故事：</b>
-            <br>
-            溫開水想要一個可以整合自己身體數值的功能，但在市面上大多數的App都只有簡單的提醒功能，在個人設定裡頭只有年齡與性別而已。讓溫開水還需要使用其他App才能知道身體數值。
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/TXm6iMs.jpg" alt="個人基本資料設定介面">
+              </div>
+            </div>
+            <div class="col-center-text">
+              <div class="text-box-card">
+                <div class="story-heading">故事：</div>
+                <div class="story-content">
+                  溫開水想要一個可以整合自己身體數值的功能，但在市面上大多數的App都只有簡單的提醒功能，在個人設定裡頭只有年齡與性別而已。讓溫開水還需要使用其他App才能知道身體數值。
+                </div>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">預想App功能</div>
+                <ul class="feature-list-big">
+                  <li>多樣數據輸入統整</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">市面App</div>
+                <ul class="compare-list-small">
+                  <li>功能單一</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face back">
+          <div class="function-header-row">
+            <div class="function-title">App功能-個人化設定</div>
+          </div>
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/fXn07o3.jpg" alt="個人基本資料設定-已填寫">
+              </div>
+            </div>
+            <div class="col-center-text">
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">藥嚀管解決了故事的痛點：</div>
+                <ul class="feature-list-big check-list">
+                  <li>身體數值輸入</li>
+                  <li>圖表匯出功能</li>
+                  <li>延遲提醒</li>
+                </ul>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-content" style="font-size: 1.6vw; font-weight: 500;">
+                  藥嚀管能輸入完整的身體資料，讓使用者在除了服藥上面，還可以知道其他身體狀況。
+                </div>
+              </div>
+            </div>
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">藥嚀管</div>
+                <ul class="compare-list-small">
+                  <li>輸入資料完善</li>
+                  <li>延伸功能較多</li>
+                  <li>延遲提醒設定</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <section class="slide-page next" data-index="1">
-      <div class="function-header-row">
-        <div class="function-title">App功能-個人化設定</div>
-      </div>
-      <div class="function-row-main">
-        <div class="left-column">
-          <div class="function-card compare auto-size">
-            藥嚀管能輸入完整的身體資料，讓使用者在除了服藥上面，還可以知道其他身體狀況。
+      <div class="flip-card">
+        <div class="card-face front">
+          <div class="function-header-row">
+            <div class="function-title">App功能-辨識</div>
           </div>
-
-          <div class="img-placeholder-card" aria-hidden="true">
-            <div class="img-box">
-              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh0SbBGkVv7hhdLodwstw8Jr50quadAAprly4rdq-USbU2RxSiQA5WjQeixC4m-8VqMimgzHHSdEC5abveZUZiDVO9laqr97gjFCTnprn_kBzEvJ8oBSSwfwyw34UyhgUDrUr069-nYi397/s180-c/trpg_character_sheet.png" alt="個人化設定 icon (區塊)">
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/809BTpd.jpg" alt="藥品拍照辨識介面">
+              </div>
+            </div>
+            <div class="col-center-text">
+              <div class="text-box-card">
+                <div class="story-heading">故事：</div>
+                <div class="story-content">
+                  溫開水要吃的保健品有很多種，時間也都算在不同時候吃，手動輸入那些藥也讓溫開水很苦惱，而且有時候在打字還一直打錯，在還沒使用App前，就已經快沒耐心了！
+                </div>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">預想App功能</div>
+                <ul class="feature-list-big">
+                  <li>操作簡單</li>
+                  <li>自動輸入</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">市面App</div>
+                <ul class="compare-list-small">
+                  <li>沒有自動辨識功能</li>
+                  <li>手動輸入</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="function-screenshot-group">
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/fXn07o3.jpg" alt="個人基本資料設定1">
-            </div>
+        <div class="card-face back">
+          <div class="function-header-row">
+            <div class="function-title">App功能-辨識</div>
           </div>
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/TXm6iMs.jpg" alt="個人基本資料設定2">
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/HJdWKd6.jpg" alt="藥品詳情辨識結果">
+              </div>
+            </div>
+            <div class="col-center-text">
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">藥嚀管解決了故事的痛點：</div>
+                <ul class="feature-list-big check-list">
+                  <li>自動辨識</li>
+                  <li>照片辨識</li>
+                </ul>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-content" style="font-size: 1.6vw; font-weight: 500;">
+                  藥嚀管在輸入藥物資訊時，能夠利用鏡頭辨識，快速新增藥物資訊在App內部，讓使用者能夠快速且方便的操作。
+                </div>
+              </div>
+            </div>
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">藥嚀管</div>
+                <ul class="compare-list-small">
+                  <li>輸入方便</li>
+                  <li>AI 辨識</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -401,60 +333,157 @@
     </section>
 
     <section class="slide-page next" data-index="2">
-      <div class="function-header-row">
-        <div class="function-title">App功能-辨識</div>
-        <div class="function-logo-group">
-          <img class="function-logo-img" src="https://i.meee.com.tw/XxNFjDY.png" alt="藥嚀管 logo">
-        </div>
-      </div>
-      <div class="function-row-main">
-        <div class="compare-story-group">
-          <div class="function-card compare">
-            <div class="compare-title">市面上的App</div>
-            <ul>
-              <li>手動輸入</li>
-              <li>容易輸入錯誤</li>
-            </ul>
-            <div class="compare-highlight">藥嚀管</div>
-            <ul>
-              <li>自動輸入</li>
-              <li>方便快速</li>
-            </ul>
+      <div class="flip-card">
+        <div class="card-face front">
+          <div class="function-header-row">
+            <div class="function-title">App功能-提醒</div>
           </div>
-          <div class="function-card story">
-            <b>故事：</b><br>
-            溫開水要吃的保健品有很多種，時間也都算在不同時候吃，手動輸入那些藥也讓溫開水很苦惱，而且有時候在打字還一直打錯，在還沒使用App前，就已經快沒耐心了！
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/rrewtae.jpg" alt="用藥時間設定介面">
+              </div>
+            </div>
+            <div class="col-center-text">
+              <div class="text-box-card">
+                <div class="story-heading">故事：</div>
+                <div class="story-content">
+                  今天溫開水又加班了，原本晚上7點要吃的保健品在App跳通知後，沒有辦法停下來吃藥，而在後來也就忘記吃藥了！這種情況常常發生，沒辦法達到溫開水在使用App希望達成的作用。
+                </div>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">預想App功能</div>
+                <ul class="feature-list-big">
+                  <li>重複提醒</li>
+                  <li>確認用藥</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">市面App</div>
+                <ul class="compare-list-small">
+                  <li>容易錯過</li>
+                  <li>單一提醒</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face back">
+          <div class="function-header-row">
+            <div class="function-title">App功能-提醒</div>
+          </div>
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/MYRh9CF.jpg" alt="確認服藥畫面">
+              </div>
+            </div>
+            <div class="col-center-text">
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">藥嚀管解決了故事的痛點：</div>
+                <ul class="feature-list-big check-list">
+                  <li>重複停醒</li>
+                  <li>確保服用狀態</li>
+                  <li>延後提醒</li>
+                </ul>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-content" style="font-size: 1.6vw; font-weight: 500;">
+                  藥嚀管在提醒上，採用重複提醒的方式，讓使用者確保有準確服藥，和藥物記錄的功能，讓使用者清楚知道服藥時間與狀況。
+                </div>
+              </div>
+            </div>
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">藥嚀管</div>
+                <ul class="compare-list-small">
+                  <li>輸入資料完善</li>
+                  <li>延伸功能較多</li>
+                  <li>延遲提醒設定</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <section class="slide-page next" data-index="3">
-      <div class="function-header-row">
-        <div class="function-title">App功能-辨識</div>
-      </div>
-      <div class="function-row-main">
-        <div class="left-column">
-          <div class="function-card compare auto-size" style="min-width:320px;max-width:400px;">
-            藥嚀管在輸入藥物資訊時，能夠利用鏡頭辨識功能，快速新增藥物資訊在App內部，並且開啟提醒功能，讓使用者能夠快速且方便的操作。
+      <div class="flip-card">
+        <div class="card-face front">
+          <div class="function-header-row">
+            <div class="function-title">App功能-紀錄</div>
           </div>
-
-          <div class="img-placeholder-card" aria-hidden="true">
-            <div class="img-box">
-              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiEAA7Nhb4Q_yfQeum4EFkNOcNLIKhs9PN45o5W_C56AGsqc518oEtXFYwzRi88JNwL5V4MmR3YvHskc7_UpC2jR_NzbhzWOJJOFN52Lz0N-H8CzMwDIQi2ISH-QK-wvEV-bMB5VBx82Aou/s180-c/kaden_camera_ichigan.png" alt="辨識 icon (區塊)">
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/liQOSJU.jpg" alt="血壓記錄列表">
+              </div>
+            </div>
+            <div class="col-center-text">
+              <div class="text-box-card">
+                <div class="story-heading">故事：</div>
+                <div class="story-content">
+                  也因為溫開水要記錄身體數值的變化，所以他每天都會測量自己的血壓，但因為提醒的App很多都沒有此功能，所以溫開水都打在手機的備忘錄裡面。
+                </div>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">預想App功能</div>
+                <ul class="feature-list-big">
+                  <li>完整紀錄</li>
+                  <li>統一功能</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">市面App</div>
+                <ul class="compare-list-small">
+                  <li>紀錄功能大多數</li>
+                  <li>無法配合匯出</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="function-screenshot-group">
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/809BTpd.jpg" alt="藥品照片識別">
-            </div>
+        <div class="card-face back">
+          <div class="function-header-row">
+            <div class="function-title">App功能-紀錄</div>
           </div>
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/HJdWKd6.jpg" alt="藥品詳情">
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/MFPqfWR.jpg" alt="用藥記錄清單">
+              </div>
+            </div>
+            <div class="col-center-text">
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">藥嚀管解決了故事的痛點：</div>
+                <ul class="feature-list-big check-list">
+                  <li>完整紀錄用藥狀態</li>
+                  <li>統一工具</li>
+                </ul>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-content" style="font-size: 1.6vw; font-weight: 500;">
+                  藥嚀管在使用者按下服藥後，會自動記錄使用者的服藥狀況，也配合輸出功能，能夠了解時間內的服藥狀況。
+                </div>
+              </div>
+            </div>
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">藥嚀管</div>
+                <ul class="compare-list-small">
+                  <li>詳細記錄服藥紀錄</li>
+                  <li>功能整合</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -462,245 +491,151 @@
     </section>
 
     <section class="slide-page next" data-index="4">
-      <div class="function-header-row">
-        <div class="function-title">App功能-提醒</div>
-        <div class="function-logo-group">
-          <img class="function-logo-img" src="https://i.meee.com.tw/XxNFjDY.png" alt="藥嚀管 logo">
-        </div>
-      </div>
-      <div class="function-row-main">
-        <div class="compare-story-group">
-          <div class="function-card compare">
-            <div class="compare-title">市面上的App</div>
-            <ul>
-              <li>提醒單一</li>
-              <li>容易錯過</li>
-            </ul>
-            <div class="compare-highlight">藥嚀管</div>
-            <ul>
-              <li>重複提醒</li>
-              <li>確保服藥</li>
-            </ul>
+      <div class="flip-card">
+        <div class="card-face front">
+          <div class="function-header-row">
+            <div class="function-title">App功能-匯出</div>
           </div>
-          <div class="function-card story">
-            <b>故事：</b>
-            <br>
-            今天溫開水又加班了，原本晚上7點要吃的保健品在App跳通知後，沒有辦法停下來吃藥，而在後來也就忘記吃藥了！這種情況常常發生，沒辦法達到溫開水在使用App希望達成的作用。
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/tZaHGrT.jpg" alt="匯出選項畫面">
+              </div>
+            </div>
+            <div class="col-center-text">
+              <div class="text-box-card">
+                <div class="story-heading">故事：</div>
+                <div class="story-content">
+                  溫開水在長期記錄後，想要知道自己的數值曲線圖，但還要自己去做圖才能觀看，在自己做完後發現圖表還怪怪的，原來是手動輸入數值時，打錯數字，讓他又要再更改輸出。
+                </div>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">預想App功能</div>
+                <ul class="feature-list-big">
+                  <li>簡單好觀察</li>
+                  <li>多重數據</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">市面App</div>
+                <ul class="compare-list-small">
+                  <li>匯出功能單一</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-face back">
+          <div class="function-header-row">
+            <div class="function-title">App功能-匯出</div>
+          </div>
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/12Lnscg.jpg" alt="健康報告預覽">
+              </div>
+            </div>
+            <div class="col-center-text">
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">藥嚀管解決了故事的痛點：</div>
+                <ul class="feature-list-big check-list">
+                  <li>匯出圖表方便觀看紀錄</li>
+                  <li>減少手動誤差</li>
+                </ul>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-content" style="font-size: 1.6vw; font-weight: 500;">
+                  藥嚀管在匯出圖表方便有需要記錄詳細資訊的使用者能夠自己選擇會出項目。
+                </div>
+              </div>
+            </div>
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">藥嚀管</div>
+                <ul class="compare-list-small">
+                  <li>完善的紀錄匯出</li>
+                  <li>詳細記錄狀況</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <section class="slide-page next" data-index="5">
-      <div class="function-header-row">
-        <div class="function-title">App功能-提醒</div>
-      </div>
-      <div class="function-row-main">
-        <div class="left-column">
-          <div class="function-card compare auto-size" style="min-width:320px;max-width:400px;">
-            藥嚀管在提醒上，採用重複提醒的方式，讓使用者確保有準確服藥，和藥物記錄的功能，能讓使用者清楚知道服藥時間與是否服藥。
+      <div class="flip-card">
+        <div class="card-face front">
+          <div class="function-header-row">
+            <div class="function-title">App功能-AI諮詢</div>
           </div>
-
-          <div class="img-placeholder-card" aria-hidden="true">
-            <div class="img-box">
-              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgu3SIA7NzgAoyhoZEb1UDg7s-PiacHSqlPN9oqRi1M4PdGP5FHCCdpTr185m4j1XL_Wp2dduKBXXUqfTqBGuwej4ZHevr6mx8c7sMv_MwUlgTEdmuvoThQYLMaPOZgUH6dKmDjU2e0btJg/s180-c/yobidashi_bell1.png" alt="提醒 icon (區塊)">
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/mAodYZf.jpg" alt="AI諮詢聊天室">
+              </div>
+            </div>
+            <div class="col-center-text">
+              <div class="text-box-card">
+                <div class="story-heading">故事：</div>
+                <div class="story-content">
+                  因為有服用多種保健品，溫開水擔心會有一些藥物不能一起吃，或者間隔時間太短的問題，他還要自己去使用其他AI軟體才能快速了解。
+                </div>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">預想App功能</div>
+                <ul class="feature-list-big">
+                  <li>藥物的基本回答</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">市面App</div>
+                <ul class="compare-list-small">
+                  <li>匯出功能單一</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="function-screenshot-group">
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/rrewtae.jpg" alt="用藥時間設定">
+        <div class="card-face back">
+          <div class="function-header-row">
+            <div class="function-title">App功能-AI諮詢</div>
+          </div>
+          <div class="layout-three-col">
+            <div class="col-left-app">
+              <div class="phone-mockup">
+                <img src="https://i.meee.com.tw/7K0AdNJ.jpg" alt="AI諮詢回答">
+              </div>
             </div>
-          </div>
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/MYRh9CF.jpg" alt="確認服藥">
+            <div class="col-center-text">
+              <div class="text-box-card bottom-gradient">
+                <div class="story-heading" style="text-align: center;">藥嚀管解決了故事的痛點：</div>
+                <ul class="feature-list-big check-list">
+                  <li>藥物的效果建議</li>
+                  <li>藥物的衝突性建議</li>
+                </ul>
+              </div>
+              <div class="text-box-card bottom-gradient">
+                <div class="story-content" style="font-size: 1.6vw; font-weight: 500;">
+                  藥嚀管在AI諮詢上能提供藥物上諮詢，不過在使用藥物上，不提供相關回答。
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide-page next" data-index="6">
-      <div class="function-header-row">
-        <div class="function-title">App功能-記錄</div>
-        <div class="function-logo-group">
-          <img class="function-logo-img" src="https://i.meee.com.tw/XxNFjDY.png" alt="藥嚀管 logo">
-        </div>
-      </div>
-      <div class="function-row-main">
-        <div class="compare-story-group">
-          <div class="function-card compare">
-            <div class="compare-title">市面上的App</div>
-            <ul>
-              <li>記錄功能大多數無</li>
-              <li>法配合匯出</li>
-            </ul>
-            <div class="compare-highlight">藥嚀管</div>
-            <ul>
-              <li>詳細記錄服藥記錄</li>
-              <li>記錄是否吃藥</li>
-            </ul>
-          </div>
-          <div class="function-card story">
-            <b>故事：</b>
-            <br>
-            也因為溫開水要記錄身體數值的變化，所以他每天都會測量自己的血壓，但因為提醒的App很多都沒有此功能，所以溫開水都打在手機的備忘錄裡面。
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide-page next" data-index="7">
-      <div class="function-header-row">
-        <div class="function-title">App功能-記錄</div>
-      </div>
-      <div class="function-row-main">
-        <div class="left-column">
-          <div class="function-card compare auto-size" style="min-width:320px;max-width:400px;">
-            藥嚀管在使用者按下服藥後，會自動記錄使用者的服藥狀況，也配合輸出功能，能夠了解時間內的服藥狀況。
-          </div>
-
-          <div class="img-placeholder-card" aria-hidden="true">
-            <div class="img-box">
-              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiGVr9wn0tR4zTehtdLzMTC8LJrHF2FrI2VuLsR1RtQetcJJm9HyQqWj0vFj9En6aJf8ishm_wttCm212ATQRkRWNPyel-8lELVzWVnTcGxTsfd5l0pPXURSmWnxIwNcF2ZdWqwtm4EgNps/s400/illustrator_pentablet.png" alt="記錄 icon (區塊)">
-            </div>
-          </div>
-        </div>
-
-        <div class="function-screenshot-group">
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/liQOSJU.jpg" alt="健康記錄-用藥記錄">
-            </div>
-          </div>
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/MFPqfWR.jpg" alt="健康記錄-血壓記錄">
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide-page next" data-index="8">
-      <div class="function-header-row">
-        <div class="function-title">App功能-匯出</div>
-        <div class="function-logo-group">
-          <img class="function-logo-img" src="https://i.meee.com.tw/XxNFjDY.png" alt="藥嚀管 logo">
-        </div>
-      </div>
-      <div class="function-row-main">
-        <div class="compare-story-group">
-          <div class="function-card compare">
-            <div class="compare-title">市面上的App</div>
-            <ul>
-              <li>匯出項目較為單一</li>
-            </ul>
-            <div class="compare-highlight">藥嚀管</div>
-            <ul>
-              <li>完善的記錄匯出</li>
-              <li>詳細記錄狀況</li>
-            </ul>
-          </div>
-          <div class="function-card story">
-            <b>故事：</b>
-            <br>
-            溫開水在長期記錄後，想要知道自己的數值曲線圖，但還要自己去做圖才能觀看，在自己做完後發現圖表還怪怪的，原來是手動輸入數值時，打錯數字，讓他又要再更改輸出。
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide-page next" data-index="9">
-      <div class="function-header-row">
-        <div class="function-title">App功能-匯出</div>
-      </div>
-      <div class="function-row-main">
-        <div class="left-column">
-          <div class="function-card compare auto-size" style="min-width:320px;max-width:400px;">
-            藥嚀管在記錄完服藥狀況後，可以勾選自己要匯出哪些數據，可以選擇單向或者全部匯出。
-          </div>
-
-          <div class="img-placeholder-card" aria-hidden="true">
-            <div class="img-box">
-              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhn7vVwEj4reriIG8KHoQngcQSHSpUD0Ds7_bBAoNJgyvgtoHEbj4MtoULGqcYxcLH93oE5AYZmdlTIeONwDrtsaXXckKN-56JowU31z1cHNSOum6-q57oA_kk5_HHH_1CZAwiEHfWGGPc/s180-c/thumbnail_graph3_oresen.jpg" alt="匯出 icon (區塊)">
-            </div>
-          </div>
-        </div>
-
-        <div class="function-screenshot-group">
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/tZaHGrT.jpg" alt="匯出健康記錄">
-            </div>
-          </div>
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/12Lnscg.jpg" alt="健康記錄報告">
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide-page next" data-index="10">
-      <div class="function-header-row">
-        <div class="function-title">App功能-AI諮詢</div>
-        <div class="function-logo-group">
-          <img class="function-logo-img" src="https://i.meee.com.tw/XxNFjDY.png" alt="藥嚀管 logo">
-        </div>
-      </div>
-      <div class="function-row-main">
-        <div class="compare-story-group">
-          <div class="function-card compare">
-            <div class="compare-title">市面上的App</div>
-            <ul>
-              <li>大多為資訊整合</li>
-            </ul>
-            <div class="compare-highlight">藥嚀管</div>
-            <ul>
-              <li>藥物的效果建議，</li>
-              <li>藥物的衝突性建議</li>
-            </ul>
-          </div>
-          <div class="function-card story">
-            <b>故事：</b>
-            <br>
-            因為有服用多種保健品，溫開水擔心會有一些藥物不能一起吃，或者間隔時間太短的問題，他還要自己去使用其他AI軟體才能快速了解。
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide-page next" data-index="11">
-      <div class="function-header-row">
-        <div class="function-title">App功能-AI諮詢</div>
-      </div>
-      <div class="function-row-main">
-        <div class="left-column">
-          <div class="function-card compare auto-size" style="min-width:320px;max-width:400px;">
-            藥嚀管在AI諮詢上能提供藥物上諮詢，不過在使用藥物上，不提供相關回答。
-          </div>
-
-          <div class="img-placeholder-card" aria-hidden="true">
-            <div class="img-box">
-              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg2dvuvi_VSVGkzORLeRYSzJid_WnW87vr8evE0R3UsfUvf-Mp5A9Ck5A6z5Nf8MwklomuG4s8lBtqE0EMieboxTAhyphenhyphenXzN8OGY_DfnFhsA_adweiu-CyYNWHRPrEf9rQ2C2-FAl6h2cTJfB/s180-c/ai_study_kikaigakusyu.png" alt="AI icon (區塊)">
-            </div>
-          </div>
-        </div>
-
-        <div class="function-screenshot-group">
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/7K0AdNJ.jpg" alt="AI健康諮詢1">
-            </div>
-          </div>
-          <div class="img-placeholder-card">
-            <div class="img-box">
-              <img src="https://i.meee.com.tw/mAodYZf.jpg" alt="AI健康諮詢2">
+            <div class="col-right-compare">
+              <div class="compare-header-text">功能比較</div>
+              <div class="compare-box">
+                <div class="compare-app-name">藥嚀管</div>
+                <ul class="compare-list-small">
+                  <li>大多為資訊整合</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -715,8 +650,19 @@
 
   <script>
     const pages = document.querySelectorAll('.slide-page');
+    const flipCards = document.querySelectorAll('.flip-card');
+
     let pageCurrent = 0;
     let pageAnimating = false;
+
+    
+    flipCards.forEach(card => {
+      card.addEventListener('click', function() {
+        this.classList.toggle('flipped');
+      });
+    });
+
+    
     function showPage(idx) {
       if (idx < 0 || idx >= pages.length) return;
       pages.forEach((pg, i) => {
@@ -724,9 +670,16 @@
         if (i < idx) pg.classList.add('prev');
         else if (i === idx) pg.classList.add('active');
         else pg.classList.add('next');
+        
+        
+        const card = pg.querySelector('.flip-card');
+        if(card && i !== idx) { 
+           card.classList.remove('flipped');
+        }
       });
       pageCurrent = idx;
     }
+
     function scrollHandler(e) {
       if (pageAnimating) return;
       const delta = e.wheelDelta || -e.deltaY || -e.detail;
@@ -740,6 +693,7 @@
         setTimeout(() => pageAnimating = false, 900);
       }
     }
+
     let touchStartY = null;
     document.addEventListener('touchstart', e => {
       if (e.touches.length === 1) touchStartY = e.touches[0].clientY;
@@ -761,6 +715,7 @@
       }
       touchStartY = null;
     });
+
     document.getElementById('slideContainer').addEventListener('wheel', scrollHandler, { passive: false });
     document.addEventListener('keydown', (e) => {
       if (pageAnimating) return;
@@ -774,6 +729,7 @@
         setTimeout(() => pageAnimating = false, 900);
       }
     });
+
     showPage(0);
   </script>
 </body>

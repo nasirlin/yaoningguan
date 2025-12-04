@@ -8,11 +8,69 @@
   <link rel="icon" type="image/png" href="https://i.meee.com.tw/ZdDarEK.png"> 
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
+    :root {
+      --nav-height: 60px;
+      --footer-height: 60px;
+    }
+
+    body {
+      overflow: hidden; 
+    }
+
+    .story-scroll-container {
+      position: relative;
+      width: 100vw;
+      height: calc(100vh - var(--nav-height) - var(--footer-height));
+      overflow: hidden;
+      flex: 1;
+      background: transparent;
+      z-index: 1;
+    }
+
+    .story-section {
+      box-sizing: border-box;
+      width: 100vw;
+      height: 100%;
+      padding: 0;
+      position: absolute; 
+      left: 0;
+      top: 0;
+      
+      transition: transform .8s cubic-bezier(.45,1.35,.45,1), opacity .6s;
+      will-change: transform, opacity;
+      
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .story-section.next {
+      opacity: 0;
+      transform: translateY(100vh) scale(.98);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .story-section.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      z-index: 10;
+      pointer-events: auto;
+    }
+
+    .story-section.prev {
+      opacity: 0;
+      transform: translateY(-60vh) scale(.97) rotate(-2deg);
+      z-index: 2;
+      pointer-events: none;
+    }
+
     .story-content-box {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 88vh; 
+      width: 100%;
+      height: 100%; 
       background: transparent;
       border: none;
       box-shadow: none;
@@ -26,12 +84,13 @@
       background: #fff;
       padding: 6px;
       object-fit: contain;
-      transition: none;
       display: block;
       margin: 0 auto;
       border: none; 
       box-shadow: none !important; 
       cursor: pointer;
+      
+      box-shadow: 0 8px 40px rgba(0,0,0,0.1) !important;
     }
 
     .figma-embed-container {
@@ -43,12 +102,11 @@
         justify-content: center;
         align-items: center;
         position: relative; 
-        
         border-radius: 28px;
         background: #fff;
         padding: 6px; 
         border: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: none !important;
+        box-shadow: 0 8px 40px rgba(0,0,0,0.1) !important;
     }
 
     .figma-embed-iframe {
@@ -84,25 +142,13 @@
         border-radius: 10px;
     }
 
-    .figma-section.active .figma-overlay {
+    .story-section.active .figma-overlay {
         display: flex; 
-    }
-    .figma-section:not(.active) .figma-overlay {
-        display: none;
     }
     
     .figma-overlay.hidden {
         opacity: 0;
         pointer-events: none; 
-    }
-
-
-    .story-section .section-img,
-    .story-section.active .section-img,
-    .story-section.prev .section-img,
-    .story-section.next .section-img {
-      box-shadow: none !important;
-      border: none !important;
     }
 
     @media (max-width: 700px) {
@@ -144,34 +190,28 @@
       </div>
     </div>
   </nav>
+
   <div class="story-scroll-container" id="storyContainer">
 
     <section class="story-section about-section active" data-index="0">
       <div class="story-content-box">
-        <img class="section-img" src="https://i.meee.com.tw/zYNlnBV.png" alt="封面1" loading="lazy" />
+        <img class="section-img" src="image/member1.png" alt="封面1" loading="lazy" />
       </div>
     </section>
+    
     <section class="story-section alert-section next" data-index="1">
       <div class="story-content-box">
-        <img class="section-img" src="https://i.meee.com.tw/ys894gl.png" alt="封面2" loading="lazy" />
+        <img class="section-img" src="image/member2.png" alt="封面2" loading="lazy" />
       </div>
     </section>
+    
     <section class="story-section research-section next" data-index="2">
       <div class="story-content-box">
-        <img class="section-img" src="https://i.meee.com.tw/G9YCVEA.png" alt="封面3" loading="lazy" />
+        <img class="section-img" src="image/member3.png" alt="封面3" loading="lazy" />
       </div>
     </section>
-    <section class="story-section purpose-section next" data-index="3">
-      <div class="story-content-box">
-        <img class="section-img" src="https://i.meee.com.tw/87HhNH2.png" alt="封面4" loading="lazy" />
-      </div>
-    </section>
-    <section class="story-section case-section next" data-index="4">
-      <div class="story-content-box">
-        <img class="section-img" src="https://i.meee.com.tw/oUXJdlq.png" alt="封面5" loading="lazy" />
-      </div>
-    </section>
-    <section class="story-section figma-section next" data-index="5">
+
+    <section class="story-section figma-section next" data-index="3">
       <div class="story-content-box">
         <div id="figmaContainer" class="figma-embed-container">
             <div id="figmaOverlay" class="figma-overlay">
@@ -190,25 +230,25 @@
       </div>
     </section>
   </div>
+
   <footer>
     Copyright 2025 藥嚀管 (UI Design  David Cao , Coding Setup 、網站架設維護、資安控管 <a href="https://tw.linkedin.com/in/nasirlincy" target="_blank">  Nasir Lin</a>)
   </footer>
+
   <script>
     const sections = document.querySelectorAll('.story-section');
     const figmaSection = document.querySelector('.figma-section');
     const figmaContainer = document.getElementById('figmaContainer'); 
-    const figmaEmbed = document.getElementById('figmaEmbed'); 
     const figmaOverlay = document.getElementById('figmaOverlay'); 
 
     let current = 0;
     let animating = false;
-
+    const animationDuration = 800; 
+    
     const imageUrls = [
-      "https://i.meee.com.tw/zYNlnBV.png",
-      "https://i.meee.com.tw/ys894gl.png",
-      "https://i.meee.com.tw/G9YCVEA.png",
-      "https://i.meee.com.tw/87HhNH2.png",
-      "https://i.meee.com.tw/oUXJdlq.png"
+      "image/member1.png",
+      "image/member2.png",
+      "image/member3.png"
     ];
     imageUrls.forEach(url => {
       const img = new Image();
@@ -225,20 +265,20 @@
         figmaOverlay.classList.add('hidden'); 
     });
 
-
     function showSection(idx) {
       if (idx < 0 || idx >= sections.length) return;
       
-      const prevIndex = current;
       sections.forEach((sec, i) => {
         sec.classList.remove('prev', 'active', 'next');
+        
         if (i < idx) sec.classList.add('prev');
         else if (i === idx) sec.classList.add('active');
         else sec.classList.add('next');
       });
+      
       current = idx;
       
-      if (current === 5) {
+      if (current === 3) {
           if (document.fullscreenElement !== figmaContainer) {
               figmaOverlay.classList.remove('hidden'); 
           }
@@ -247,21 +287,22 @@
 
     function scrollHandler(e) {
       if (animating) return;
-      e.preventDefault();
       
       if (document.fullscreenElement === figmaContainer) {
           return; 
       }
       
       const delta = e.wheelDelta || -e.deltaY || -e.detail;
+      
       if (delta < 0 && current < sections.length - 1) {
         animating = true;
         showSection(current + 1);
-        setTimeout(() => animating = false, 900);
-      } else if (delta > 0 && current > 0) {
+        setTimeout(() => animating = false, animationDuration);
+      } 
+      else if (delta > 0 && current > 0) {
         animating = true;
         showSection(current - 1);
-        setTimeout(() => animating = false, 900);
+        setTimeout(() => animating = false, animationDuration);
       }
     }
 
@@ -273,31 +314,32 @@
       }
       if (e.touches.length === 1) touchStartY = e.touches[0].clientY;
     });
+    
     document.addEventListener('touchend', e => {
       if (touchStartY === null) return;
       
       let endY = e.changedTouches[0].clientY;
       let diff = endY - touchStartY;
+      
       if (Math.abs(diff) > 60 && !animating) {
         if (diff < 0 && current < sections.length - 1) {
           animating = true;
           showSection(current + 1);
-          setTimeout(() => animating = false, 900);
+          setTimeout(() => animating = false, animationDuration);
         } else if (diff > 0 && current > 0) {
           animating = true;
           showSection(current - 1);
-          setTimeout(() => animating = false, 900);
+          setTimeout(() => animating = false, animationDuration);
         }
       }
       touchStartY = null;
     });
 
     document.addEventListener('fullscreenchange', () => {
-        if (document.fullscreenElement === null && current === 5) {
+        if (document.fullscreenElement === null && current === 3) {
             window.location.href = 'span.html';
         }
     });
-
 
     document.getElementById('storyContainer').addEventListener('wheel', scrollHandler, { passive: false });
 
@@ -311,11 +353,11 @@
       if (e.key === 'ArrowDown' && current < sections.length - 1) {
         animating = true;
         showSection(current + 1);
-        setTimeout(() => animating = false, 900);
+        setTimeout(() => animating = false, animationDuration);
       } else if (e.key === 'ArrowUp' && current > 0) {
         animating = true;
         showSection(current - 1);
-        setTimeout(() => animating = false, 900);
+        setTimeout(() => animating = false, animationDuration);
       }
     });
 

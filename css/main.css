@@ -1,6 +1,6 @@
 :root {
-  --main-green: #258f2e;
-  --hover-green: #1d6f23;
+  --main-green: #48c1a4;
+  --hover-green: #48c1a4;
   --nav-height: 56px;
   --card-radius: 16px;
   --card-shadow: 0 4px 24px rgba(0,0,0,0.08);
@@ -95,25 +95,26 @@ body {
 .navbar-icon:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
+/* 修正：將 SVG 內的 stroke 顏色編碼改為 %2348c1a4 以匹配主題色 */
 .navbar-icon::before {
   content: '';
   display: block;
   width: 18px;
   height: 18px;
-  background: url('data:image/svg+xml;utf8,<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="%23258f2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2 2"/></svg>') center/contain no-repeat;
+  background: url('data:image/svg+xml;utf8,<svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="%2348c1a4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2 2"/></svg>') center/contain no-repeat;
 }
 
-  .navbar-icon {
-    width: 24px;
-    height: 24px;
-    background-image: url('https://i.meee.com.tw/54GAXTY.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-  }
+.navbar-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url('https://i.meee.com.tw/54GAXTY.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
 
 .navbar-toggle {
   display: none;
@@ -205,8 +206,9 @@ body {
   width: 100%;
   height: 100%;
 }
+/* 修正：將陰影的 RGB 數值改為 72,193,164 以匹配 #48c1a4 */
 .card:hover {
-  box-shadow: 0 6px 20px rgba(37,143,46,0.07);
+  box-shadow: 0 6px 20px rgba(72,193,164,0.07);
   background: #d8eadc;
 }
 
